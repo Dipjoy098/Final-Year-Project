@@ -1,24 +1,21 @@
-abc@DESKTOP-VAMK1SM MINGW64 ~/Downloads/ecommerce-platform/ecommerce-platform/scripts (master)
-$ sc query Jenkins
+That command ran on my end (the Mac) — useless here. Run these in your Git Bash:
 
-SERVICE_NAME: Jenkins
-        TYPE               : 10  WIN32_OWN_PROCESS
-        STATE              : 4  RUNNING
-                                (STOPPABLE, NOT_PAUSABLE, ACCEPTS_SHUTDOWN)
-        WIN32_EXIT_CODE    : 0  (0x0)
-        SERVICE_EXIT_CODE  : 0  (0x0)
-        CHECKPOINT         : 0x0
-        WAIT_HINT          : 0x0
 
-abc@DESKTOP-VAMK1SM MINGW64 ~/Downloads/ecommerce-platform/ecommerce-platform/scripts (master)
-$  echo "--- java ---"; ls "/c/Program Files/Eclipse Adoptium/"/*/bin/java.exe 2>&1
---- java ---
-'/c/Program Files/Eclipse Adoptium//jdk-25.0.3.9-hotspot/bin/java.exe'*
+# the MSI usually uses ProgramData as JENKINS_HOME
+cat "/c/ProgramData/Jenkins/.jenkins/secrets/initialAdminPassword" 2>/dev/null
 
-abc@DESKTOP-VAMK1SM MINGW64 ~/Downloads/ecommerce-platform/ecommerce-platform/scripts (master)
-$  echo "--- jenkins.xml executable line ---"; grep -i executable "/c/Program Files/Jenkins/jenkins.xml" 2>&1
---- jenkins.xml executable line ---
-  <executable>C:\Program Files\Java\jdk-21.0.12\\bin\java.exe</executable>
+# fallback: search both trees for the file
+find "/c/ProgramData/Jenkins" "/c/Program Files/Jenkins" -name initialAdminPassword 2>/dev/null
+The first line most likely prints a 32-character hex string — that's your unlock password.
 
-abc@DESKTOP-VAMK1SM MINGW64 ~/Downloads/ecommerce-platform/ecommerce-platform/scripts (master)
-$
+If find shows nothing at all, Jenkins is running but stored its home elsewhere. Check where it points:
+
+
+grep -i jenkins_home "/c/Program Files/Jenkins/jenkins.xml"
+The secrets/initialAdminPassword file lives under whatever path that env var is set to.
+
+Once you have the password:
+
+Open http://localhost:8090 in a browser (that's the port you set).
+Paste the password → Install suggested plugins → create your admin user.
+Paste the output of the cat/find above and I'll confirm you've got the right value.
