@@ -1,21 +1,37 @@
-That command ran on my end (the Mac) — useless here. Run these in your Git Bash:
+Started by user ha:////4J/llF6UU4eoUJNyH5aZ8C3hS5wVaIVt9pKQcJA+tl1ZAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAy2EgZu/dLi1CL9xJTczDwA9svhPMAAAAA=Dipjoy
+org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+WorkflowScript: 33: unexpected char: '\' @ line 33, column 18.
+       WORKDIR = "C:\Users\abc\Downloads\ecommerce-platform\ecommerce-platform"
+                    ^
 
+1 error
 
-# the MSI usually uses ProgramData as JENKINS_HOME
-cat "/c/ProgramData/Jenkins/.jenkins/secrets/initialAdminPassword" 2>/dev/null
+        at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:309)
+        at org.codehaus.groovy.control.ErrorCollector.addFatalError(ErrorCollector.java:149)
+        at org.codehaus.groovy.control.ErrorCollector.addError(ErrorCollector.java:119)
+        at org.codehaus.groovy.control.ErrorCollector.addError(ErrorCollector.java:131)
+        at org.codehaus.groovy.control.SourceUnit.addError(SourceUnit.java:349)
+        at org.codehaus.groovy.antlr.AntlrParserPlugin.transformCSTIntoAST(AntlrParserPlugin.java:220)
+        at org.codehaus.groovy.antlr.AntlrParserPlugin.parseCST(AntlrParserPlugin.java:191)
+        at org.codehaus.groovy.control.SourceUnit.parse(SourceUnit.java:233)
+        at org.codehaus.groovy.control.CompilationUnit$1.call(CompilationUnit.java:189)
+        at org.codehaus.groovy.control.CompilationUnit.applyToSourceUnits(CompilationUnit.java:966)
+        at org.codehaus.groovy.control.CompilationUnit.doPhaseOperation(CompilationUnit.java:626)
+        at org.codehaus.groovy.control.CompilationUnit.processPhaseOperations(CompilationUnit.java:602)
+        at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:579)
+        at groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:323)
+        at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:293)
+        at PluginClassLoader for script-security//org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.GroovySandbox$Scope.parse(GroovySandbox.java:162)
+        at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsGroovyShell.doParse(CpsGroovyShell.java:202)
+        at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsGroovyShell.reparse(CpsGroovyShell.java:186)
+        at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsFlowExecution.parseScript(CpsFlowExecution.java:670)
+        at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsFlowExecution.start(CpsFlowExecution.java:616)
+        at PluginClassLoader for workflow-job//org.jenkinsci.plugins.workflow.job.WorkflowRun.run(WorkflowRun.java:368)
+        at hudson.model.ResourceController.execute(ResourceController.java:97)
+        at hudson.model.Executor.run(Executor.java:456)
+Finished: FAILURE
 
-# fallback: search both trees for the file
-find "/c/ProgramData/Jenkins" "/c/Program Files/Jenkins" -name initialAdminPassword 2>/dev/null
-The first line most likely prints a 32-character hex string — that's your unlock password.
+==> Build #1 finished: FAILURE
 
-If find shows nothing at all, Jenkins is running but stored its home elsewhere. Check where it points:
-
-
-grep -i jenkins_home "/c/Program Files/Jenkins/jenkins.xml"
-The secrets/initialAdminPassword file lives under whatever path that env var is set to.
-
-Once you have the password:
-
-Open http://localhost:8090 in a browser (that's the port you set).
-Paste the password → Install suggested plugins → create your admin user.
-Paste the output of the cat/find above and I'll confirm you've got the right value.
+abc@DESKTOP-VAMK1SM MINGW64 ~/Downloads/ecommerce-platform/ecommerce-platform/scripts (master)
+$
