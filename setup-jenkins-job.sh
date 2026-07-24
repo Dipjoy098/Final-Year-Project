@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 # ============================================================================
 # Create + run the ecommerce-deploy Jenkins pipeline job, end to end.
 #
@@ -43,13 +43,15 @@ fi
 AUTH="$JENKINS_USER:$JENKINS_TOKEN"
 
 # --- work out this project's Windows path for WORKDIR ----------------------
+# Use forward slashes (cygpath -m => C:/Users/abc/...). Groovy, Java and bash
+# all accept forward slashes on Windows, so there are NO backslashes to escape
+# in the Groovy string — which is what broke the first attempt.
 if command -v cygpath >/dev/null 2>&1; then
-  ROOT_WIN="$(cygpath -w "$ROOT")"            # C:\Users\abc\...\ecommerce-platform
+  ROOT_GROOVY="$(cygpath -m "$ROOT")"         # C:/Users/abc/.../ecommerce-platform
 else
-  ROOT_WIN="$ROOT"                            # non-Windows: leave as-is
+  ROOT_GROOVY="$ROOT"                         # non-Windows: already forward-slashed
 fi
-ROOT_GROOVY="${ROOT_WIN//\\/\\\\}"            # escape backslashes for the Groovy string
-say "Project path (WORKDIR): $ROOT_WIN"
+say "Project path (WORKDIR): $ROOT_GROOVY"
 
 # --- build the pipeline script with WORKDIR filled in ----------------------
 SCRIPT_FILE="$(mktemp)"
